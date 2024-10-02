@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient or Doctor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+        .button-container {
+            margin: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        section {
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        section .content {
+            max-width: 50%; /* Limit content width to 50% of page */
+            text-align: center; /* Align text to the left inside the container */
+        }
+        input[type="range"] {
+        width: 300px; /* Set the desired width */
+        margin: 20px 0; /* Add some margin for spacing */
+        }
+        form {
+            display: flex;
+            flex-direction: column; /* Stack options vertically */
+            align-items: stretch; /* Ensure all buttons are the same width */
+        }
+
+        input[type="radio"] {
+            display: none; /* Hide the default radio buttons */
+        }
+
+        
+        label {
+            background-color: white; /* White background */
+            border: 2px solid black; /* Black outline */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding around the text */
+            margin: 0; /* No margin between options */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition for background */
+            width: 100%; /* Full width */
+            text-align: center; /* Center the text */
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: green; /* Change background to blue when selected */
+            color: white; /* Change text color to white when selected */
+        }
+
+        .probability-tag {
+            display: inline-block; /* Allow it to behave like a box */
+            border: 2px solid black; /* Black outline */
+            border-radius: 4px; /* Slightly rounded corners */
+            padding: 5px 10px; /* Padding inside the box */
+            background-color: white; /* White background */
+            font-weight: bold; /* Make the text bold */
+            color: black; /* Text color */
+            font-size: 14px; /* Font size */
+        }
+
+        .icon-array-container {
+            display: inline-block; /* Allow it to behave like a box */
+            border: 2px solid black; /* Black outline */
+            border-radius: 4px; /* Slightly rounded corners */
+            padding: 5px 10px; /* Padding inside the box */
+            background-color: white; /* White background */
+        }
+
+        .icon-array {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 0px 2px;
+            /* width: 400px;
+            height: 400px; */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon-array div {
+            font-size: 16pt;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <section id="home">
+        <h1>Are you a:</h1>
+        <div class="button-container">
+            <button onclick="location.href='#patient-section'">Patient</button>
+            <button onclick="location.href='#doctor-section'">Doctor</button>
+        </div>
+    </section>
+
+    <section id="patient-section">
+        <div class="content">    
+            <h2>Welcome, Patient!</h2>
+            <p>This study assesses the communication of risk from medical decision support tools.</p>
+            <p>In each case you will be asked whether you want to take statins to reduce your risk of a heart attack.</p>
+            <p>Statins are a type of medication that can help lower your cholesterol levels. Cholesterol is a substance that can build up in your blood vessels, making it harder for blood to flow through. Over time, this can lead to a heart attack. By taking statins, you can reduce the amount of cholesterol in your blood, which can lower your risk of having a heart attack. Statins are commonly prescribed by doctors for people at risk of heart disease, and they have been shown to be effective in preventing serious heart problems.</p>
+            <p>There will be three options to each </p>
+            <div class="button-container">
+                <button onclick="location.href='#patient-screening'">I understand and agree to take part in this study</button>
+                <button onclick="location.href='#final'">I do not wish to take part take part in this study</button>
+            </div>
+            <button onclick="location.href='#home'">Back</button>
+        </div>
+    </section>
+
+
+    <section id="patient-screening">
+        <div class="content">
+            <h2>Patient Screening</h2>
+            <form>
+                <label for="doctor-trust">
+                    <p>1. How likely are you to trust a recommendation made by a doctor? (0 - Never, 10 - Always)</p>
+                </label>
+                <input type="range" id="doctor-trust" name="doctor-trust" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                <output>5</output> / 10
+    
+                <label for="algorithm-trust">
+                    <p>2. How likely are you to trust a recommendation made by an algorithm? (0 - Never, 10 - Always)</p>
+                </label>
+                <input type="range" id="algorithm-trust" name="algorithm-trust" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                <output>5</output> / 10
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#patient-section'">Back</button>
+                <button onclick="location.href='#ppl'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ### Patient perscriptive-->
+    <section id="ppl">
+        <div class="content">
+            <p>An AI system has assessed that you <b>would not benefit</b> from being prescribed statins.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="ppl-yes" name="ppl" value="yes">
+                <label for="ppl-yes">Yes</label>
+    
+                <input type="radio" id="ppl-no" name="ppl" value="no">
+                <label for="ppl-no">No</label>
+    
+                <input type="radio" id="ppl-more-info" name="ppl" value="more-info">
+                <label for="ppl-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="ppl-unsure" name="ppl" value="unsure">
+                <label for="ppl-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#patient-screening'">Back</button>
+                <button onclick="location.href='#pph'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pph">
+        <div class="content">
+            <p>An AI system has assessed that you <b>would benefit</b> from being prescribed statins.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pph-yes" name="pph" value="yes">
+                <label for="pph-yes">Yes</label>
+    
+                <input type="radio" id="pph-no" name="pph" value="no">
+                <label for="pph-no">No</label>
+    
+                <input type="radio" id="pph-more-info" name="pph" value="more-info">
+                <label for="pph-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pph-unsure" name="pph" value="unsure">
+                <label for="pph-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#ppl'">Back</button>
+                <button onclick="location.href='#ppu'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="ppu"></section>
+        <div class="content">
+            <p>An AI system has assessed that <b>it is unclear</b> whether you would benefit from being prescribed statins.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="ppu-yes" name="ppu" value="yes">
+                <label for="ppu-yes">Yes</label>
+    
+                <input type="radio" id="ppu-no" name="ppu" value="no">
+                <label for="ppu-no">No</label>
+    
+                <input type="radio" id="ppu-more-info" name="ppu" value="more-info">
+                <label for="ppu-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="ppu-unsure" name="ppu" value="unsure">
+                <label for="ppu-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#pph'">Back</button>
+                <button onclick="location.href='#prl'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ### Patient risk  -->
+    <section id="prl">
+        <div class="content">
+            <p>An AI system has assessed that you are at <b>low risk</b> of a heart attack in the next 10 years.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="prl-yes" name="prl" value="yes">
+                <label for="prl-yes">Yes</label>
+                <input type="radio" id="prl-no" name="prl" value="no">
+                <label for="prl-no">No</label>
+                <input type="radio" id="prl-more-info" name="prl" value="more-info">
+                <label for="prl-more-info">I would like more information from a doctor</label>
+                <input type="radio" id="prl-unsure" name="prl" value="unsure">
+                <label for="prl-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#ppu'">Back</button>
+                <button onclick="location.href='#prb'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="prb">
+        <div class="content">
+            <p>An AI system has assessed that you are at <b>medium risk</b> of a heart attack in the next 10 years.</p>
+            <p>Do you want to take statins?</p>
+    
+            <form>
+                <input type="radio" id="prb-yes" name="prb" value="yes">
+                <label for="prb-yes">Yes</label>
+    
+                <input type="radio" id="prb-no" name="prb" value="no">
+                <label for="prb-no">No</label>
+    
+                <input type="radio" id="prb-more-info" name="prb" value="more-info">
+                <label for="prb-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="prb-unsure" name="prb" value="unsure">
+                <label for="prb-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#prl'">Back</button>
+                <button onclick="location.href='#prh'">Next</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="prh">
+        <div class="content">
+            <p>An AI system has assessed that you are at <b>high risk</b> of a heart attack in the next 10 years.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="prh-yes" name="prh" value="yes">
+                <label for="prh-yes">Yes</label>
+    
+                <input type="radio" id="prh-no" name="prh" value="no">
+                <label for="prh-no">No</label>
+    
+                <input type="radio" id="prh-more-info" name="prh" value="more-info">
+                <label for="prh-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="prh-unsure" name="prh" value="unsure">
+                <label for="prh-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#prb'">Back</button>
+                <button onclick="location.href='#pru'">Next</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="pru">
+        <div class="content">
+            <p>An AI system has been <b>unable to assess your risk</b> of a heart attack in the next 10 years.</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pru-yes" name="pru" value="yes">
+                <label for="pru-yes">Yes</label>
+    
+                <input type="radio" id="pru-no" name="pru" value="no">
+                <label for="pru-no">No</label>
+    
+                <input type="radio" id="pru-more-info" name="pru" value="more-info">
+                <label for="pru-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pru-unsure" name="pru" value="unsure">
+                <label for="pru-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#prh'">Back</button>
+                <button onclick="location.href='#pnl'">Next</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ### Patient number -->
+    <section id="pnl">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">2.2%</span>
+            <p></p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnl-yes" name="pnl" value="yes">
+                <label for="pnl-yes">Yes</label>
+    
+                <input type="radio" id="pnl-no" name="pnl" value="no">
+                <label for="pnl-no">No</label>
+    
+                <input type="radio" id="pnl-more-info" name="pnl" value="more-info">
+                <label for="pnl-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnl-unsure" name="pnl" value="unsure">
+                <label for="pnl-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pru'">Back</button>
+                <button onclick="location.href='#pnb'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pnb">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">10.2%</span>
+            
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnb-yes" name="pnb" value="yes">
+                <label for="pnb-yes">Yes</label>
+    
+                <input type="radio" id="pnb-no" name="pnb" value="no">
+                <label for="pnb-no">No</label>
+    
+                <input type="radio" id="pnb-more-info" name="pnb" value="more-info">
+                <label for="pnb-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnb-unsure" name="pnb" value="unsure">
+                <label for="pnb-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pnl'">Back</button>
+                <button onclick="location.href='#pnh'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pnh">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">27.3%</span>
+
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnh-yes" name="pnh" value="yes">
+                <label for="pnh-yes">Yes</label>
+    
+                <input type="radio" id="pnh-no" name="pnh" value="no">
+                <label for="pnh-no">No</label>
+    
+                <input type="radio" id="pnh-more-info" name="pnh" value="more-info">
+                <label for="pnh-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnh-unsure" name="pnh" value="unsure">
+                <label for="pnh-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pnb'">Back</button>
+                <button onclick="location.href='#pnrl'">Next</button>
+            </div>
+        </div>~
+    </section>
+
+    <!-- ### Patient number + risk -->
+    <section id="pnrl">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">4.6%</span>
+            <p>This means that you are at <b>low risk</b> of having a heart attack or stroke in the next 10 years</p>
+            <p></p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnrl-yes" name="pnrl" value="yes">
+                <label for="pnrl-yes">Yes</label>
+    
+                <input type="radio" id="pnrl-no" name="pnrl" value="no">
+                <label for="pnrl-no">No</label>
+    
+                <input type="radio" id="pnrl-more-info" name="pnrl" value="more-info">
+                <label for="pnrl-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnrl-unsure" name="pnrl" value="unsure">
+                <label for="pnrl-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pru'">Back</button>
+                <button onclick="location.href='#pnrb'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pnrb">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">9.7%</span>
+            <p>This means that you are at <b>medium risk</b> of having a heart attack or stroke in the next 10 years</p>
+            
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnrb-yes" name="pnrb" value="yes">
+                <label for="pnrb-yes">Yes</label>
+    
+                <input type="radio" id="pnrb-no" name="pnrb" value="no">
+                <label for="pnrb-no">No</label>
+    
+                <input type="radio" id="pnrb-more-info" name="pnrb" value="more-info">
+                <label for="pnrb-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnrb-unsure" name="pnrb" value="unsure">
+                <label for="pnrb-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pnrl'">Back</button>
+                <button onclick="location.href='#pnrh'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pnrh">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">31.9%</span>
+            <p>This means that you are at <b>high risk</b> of having a heart attack or stroke in the next 10 years</p>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pnrh-yes" name="pnrh" value="yes">
+                <label for="pnrh-yes">Yes</label>
+    
+                <input type="radio" id="pnrh-no" name="pnrh" value="no">
+                <label for="pnrh-no">No</label>
+    
+                <input type="radio" id="pnrh-more-info" name="pnrh" value="more-info">
+                <label for="pnrh-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pnrh-unsure" name="pnrh" value="unsure">
+                <label for="pnrh-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pnrb'">Back</button>
+                <button onclick="location.href='#pvl'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ### Patient Verbose -->
+    <section id="pvl">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">4.9%</span>
+            <p>In other words, <b>5 out of 100</b> people with the same risk factors as you will have a heart attack or stroke in the next 10 years</p>
+            <div class="icon-array-container">
+                <div class="icon-array">
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>🤢</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                </div>
+            </div>
+            <p>Do you want to take statins?</p>
+            <form>
+                <input type="radio" id="pvl-yes" name="pvl" value="yes">
+                <label for="pvl-yes">Yes</label>
+    
+                <input type="radio" id="pvl-no" name="pvl" value="no">
+                <label for="pvl-no">No</label>
+    
+                <input type="radio" id="pvl-more-info" name="pvl" value="more-info">
+                <label for="pvl-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pvl-unsure" name="pvl" value="unsure">
+                <label for="pvl-unsure">Unsure</label>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#pnrh'">Back</button>
+                <button onclick="location.href='#pvb'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pvb">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">9.7%</span>
+            <p>In other words, <b>10 out of 100</b> people with the same risk factors as you will have a heart attack or stroke in the next 10 years</p>
+            <div class="icon-array-container">
+                <div class="icon-array">
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div>
+                    <!-- row -->
+                    <div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                </div>
+            </div>
+            <form>
+                <input type="radio" id="pvb-yes" name="pvb" value="yes">
+                <label for="pvb-yes">Yes</label>
+    
+                <input type="radio" id="pvl-no" name="pvb" value="no">
+                <label for="pvb-no">No</label>
+    
+                <input type="radio" id="pvb-more-info" name="pvb" value="more-info">
+                <label for="pvb-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pvb-unsure" name="pvb" value="unsure">
+                <label for="pvb-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#pvl'">Back</button>
+                <button onclick="location.href='#pvh'">Next</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="pvh">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">38.3%</span>
+            <p>In other words, <b>38 out of 100</b> people with the same risk factors as you will have a heart attack or stroke in the next 10 years</p>
+            <div class="icon-array-container">
+                <div class="icon-array">
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>🤢</div><div>🤢</div><div>🤢</div><div>😊</div><div>😊</div><div>🤢</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>🤢</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>🤢</div><div>🤢</div><div>🤢</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>🤢</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>🤢</div>
+                    <!-- row -->
+                    <div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>🤢</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div>
+                    </div>
+            </div>
+            <form>
+                <input type="radio" id="pvh-yes" name="pvh" value="yes">
+                <label for="pvh-yes">Yes</label>
+    
+                <input type="radio" id="pvh-no" name="pvh" value="no">
+                <label for="pvh-no">No</label>
+    
+                <input type="radio" id="pvh-more-info" name="pvh" value="more-info">
+                <label for="pvh-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pvh-unsure" name="pvh" value="unsure">
+                <label for="pvh-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#pvb'">Back</button>
+                <button onclick="location.href='#pvu'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="pvu">
+        <div class="content">
+            <p>An AI system has assessed your risk of a heart attack ot stroke in the next 10 years.</p>
+            <p>Your risk of having a heart attack or stroke within the next 10 years is:</p>
+            <span class="probability-tag">between 7% and 13%</span>
+            <p>In other words, <b>between 7 and 13 out of 100</b> people with the same risk factors as you will have a heart attack or stroke in the next 10 years</p>
+            <div class="icon-array-container">
+                <div class="icon-array">
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>🤢</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>🤢</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>🤢</div><div>😊</div><div>😊</div><div>🫥</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                    <!-- row -->
+                    <div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div><div>😊</div>
+                </div>
+            </div>
+            <form>
+                <input type="radio" id="pvu-yes" name="pvu" value="yes">
+                <label for="pvu-yes">Yes</label>
+    
+                <input type="radio" id="pvu-no" name="pvu" value="no">
+                <label for="pvu-no">No</label>
+    
+                <input type="radio" id="pvu-more-info" name="pvu" value="more-info">
+                <label for="pvu-more-info">I would like more information from a doctor</label>
+    
+                <input type="radio" id="pvu-unsure" name="pvu" value="unsure">
+                <label for="pvu-unsure">Unsure</label>
+            </form>
+            <div class="button-container"></div>
+                <button onclick="location.href='#pvb'">Back</button>
+                <button onclick="location.href='#retro1'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctor-section">
+        <div class="content">
+            <h2>Welcome, Doctor!</h2>
+            <p>Statins are widely used to help patients reduce their cholesterol levels and lower the risk of cardiovascular events, such as heart attacks. As you know, high cholesterol can lead to atherosclerosis, narrowing arteries and increasing the risk of heart disease. By prescribing statins, you can help patients reduce these risks, especially those with a history of heart disease or elevated cholesterol levels.</p>
+            <p>This study evaluates how risk information is communicated to patients using medical decision support tools.</p>
+            <p>In each case, you will be asked to provide recommendations on whether statins should be considered for reducing a patient's risk of heart attack.</p>
+            <p>There will be three possible outcomes to assess for each case.</p>
+            <!-- <div class="button-container">
+                <button onclick="location.href='#patient-screening'">I understand and agree to take part in this study</button>
+                <button onclick="location.href='#final'">I do not wish to take part in this study</button>
+            </div> -->
+            <button onclick="location.href='#home'">Back</button>
+            
+        </div>
+    </section>
+
+    <section id="doctor-screening"></section>
+        <div class="content">
+            <h2>Patient Screening</h2>
+            <form>
+    
+                <label for="algorithm-trust">
+                    <p>How likely are you to trust a recommendation made by an algorithm? (0 - Never, 10 - Always)</p>
+                </label>
+                <input type="range" id="algorithm-trust" name="algorithm-trust" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                <output>5</output> / 10
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#doctor-screening'">Back</button>
+                <button onclick="location.href='#doctor-1'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="retro1">
+        <div class="content">
+            <h2>Retrospective questions</h2>
+            <p>How confident were you in making a deicsion with the following formats:</p>
+            <form>
+                <label for="perscriptive-confidence">
+                    <p>Suggested decision</p>
+                    <input type="range" id="perscriptive-confidence" name="perscriptive-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                </label>
+
+                <label for="risk-confidence">
+                    <p>Risk level only</p>
+                    <input type="range" id="risk-confidence" name="risk-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                </label>
+
+                <label for="number-confidence">
+                    <p>Number only</p>
+                    <input type="range" id="number-confidence" name="number-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                </label>
+
+                <label for="numberrisk-confidence">
+                    <p>Number + risk level</p>
+                    <input type="range" id="numberrisk-confidence" name="numberrisk-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                </label>
+
+                <label for="verbose-confidence">
+                    <p>Natural frequency + icon array</p>
+                    <input type="range" id="verbose-confidence" name="verbose-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
+                </label>
+
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#retro2'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="retro2">
+        <div class="content">
+            <h2>Retrospective questions</h2>
+            <p>Please select the format you thought was most useful in your decision making process</p>
+            <form>
+
+                <input type="radio" id="retro2-perscriptive" name="retro2" value="perscriptive">
+                <label for="retro2-perscriptive">Recommended decision</label>
+
+                <input type="radio" id="retro2-risk" name="retro2" value="risk">
+                <label for="retro2-risk">Risk level only</label>
+
+                <input type="radio" id="retro2-number" name="retro2" value="number">
+                <label for="retro2-number">Number only</label>
+                
+                <input type="radio" id="retro2-numberrisk" name="retro2" value="numberrisk">
+                <label for="retro2-numberrisk">Number + risk level</label>
+
+                <input type="radio" id="retro2-verbose" name="retro2" value="verbose">
+                <label for="retro2-verbose">Natural frequency + icon array</label>
+
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='#final'">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="final">
+        <h1>Thank you for taking part</h1>
+        <p>For more information please email: ngg@liverpool.ac.uk</p>
+    </section>
+
+</body>
+</html>
