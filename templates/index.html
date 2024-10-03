@@ -108,7 +108,52 @@
             justify-content: center;
             align-items: center;
         }
+        /* Tooltip container */
+        .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+        }
 
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+
+        /* Fade in tooltip */
+        opacity: 0;
+        transition: opacity 0.3s;
+        }
+
+        /* Tooltip arrow */
+        .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -142,20 +187,45 @@
             <h2>Patient Screening</h2>
             <form>
                 <label for="doctor-trust">
-                    <p>1. How likely are you to trust a recommendation made by a doctor? (0 - Never, 10 - Always)</p>
+                    <p>1. How likely are you to trust a recommendation made by a doctor? (0 - Never, 5 - Always)</p>
+                    <div>
+                        <input type="radio" id="doctor-trust" name="doctor-trust" value="0">
+                        <label for="doctor-trust-0">0</label>
+                        <input type="radio" id="doctor-trust-1" name="doctor-trust" value="1">
+                        <label for="doctor-trust-1">1</label>
+                        <input type="radio" id="doctor-trust-2" name="doctor-trust" value="2">
+                        <label for="doctor-trust-2">2</label>
+                        <input type="radio" id="doctor-trust-3" name="doctor-trust" value="3">
+                        <label for="doctor-trust-3">3</label>
+                        <input type="radio" id="doctor-trust-4" name="doctor-trust" value="4">
+                        <label for="doctor-trust-4">4</label>
+                        <input type="radio" id="doctor-trust-5" name="doctor-trust" value="5">
+                        <label for="doctor-trust-5">5</label>
+                    </div>
+                    <br>
                 </label>
-                <input type="range" id="doctor-trust" name="doctor-trust" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                <output>5</output> / 10
-    
                 <label for="algorithm-trust">
-                    <p>2. How likely are you to trust a recommendation made by an algorithm? (0 - Never, 10 - Always)</p>
-                </label>
-                <input type="range" id="algorithm-trust" name="algorithm-trust" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                <output>5</output> / 10
+                    <p>2. How likely are you to trust a recommendation made by an algorithm? (0 - Never, 5 - Always)</p>
+                    <div>
+                        <input type="radio" id="algorithm-trust" name="algorithm-trust" value="0">
+                        <label for="algorithm-trust-0">0</label>
+                        <input type="radio" id="algorithm-trust-1" name="algorithm-trust" value="1">
+                        <label for="algorithm-trust-1">1</label>
+                        <input type="radio" id="algorithm-trust-2" name="algorithm-trust" value="2">
+                        <label for="algorithm-trust-2">2</label>
+                        <input type="radio" id="algorithm-trust-3" name="algorithm-trust" value="3">
+                        <label for="algorithm-trust-3">3</label>
+                        <input type="radio" id="algorithm-trust-4" name="algorithm-trust" value="4">
+                        <label for="algorithm-trust-4">4</label>
+                        <input type="radio" id="algorithm-trust-5" name="algorithm-trust" value="5">
+                        <label for="algorithm-trust-5">5</label>
+                    </div>
+                    <br>
+                </label>  
             </form>
             <div class="button-container">
                 <button onclick="location.href='#patient-section'">Back</button>
-                <button onclick="location.href='#ppl'">Next</button>
+                <button onclick={{patient_start}}>Next</button>
             </div>
         </div>
     </section>
@@ -179,8 +249,8 @@
                 <label for="ppl-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#patient-screening'">Back</button>
-                <button onclick="location.href='#pph'">Next</button>
+                <button onclick={{ppl_back}}>Back</button>
+                <button onclick={{ppl_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -203,8 +273,8 @@
                 <label for="pph-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#ppl'">Back</button>
-                <button onclick="location.href='#ppu'">Next</button>
+            <button onclick={{pph_back}}>Back</button>
+            <button onclick={{pph_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -227,8 +297,8 @@
                 <label for="ppu-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#pph'">Back</button>
-                <button onclick="location.href='#prl'">Next</button>
+            <button onclick={{ppu_back}}>Back</button>
+            <button onclick={{ppu_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -249,8 +319,8 @@
                 <label for="prl-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#ppu'">Back</button>
-                <button onclick="location.href='#prb'">Next</button>
+                <button onclick={{prl_back}}>Back</button>
+                <button onclick={{prl_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -274,8 +344,8 @@
                 <label for="prb-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#prl'">Back</button>
-                <button onclick="location.href='#prh'">Next</button>
+                <button onclick={{prb_back}}>Back</button>
+                <button onclick={{prb_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -299,8 +369,8 @@
                 <label for="prh-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#prb'">Back</button>
-                <button onclick="location.href='#pru'">Next</button>
+                <button onclick={{prh_back}}>Back</button>
+                <button onclick={{prh_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -324,8 +394,8 @@
                 <label for="pru-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#prh'">Back</button>
-                <button onclick="location.href='#pnl'">Next</button>
+                <button onclick={{pru_back}}>Back</button>
+                <button onclick={{pru_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -352,8 +422,8 @@
                 <label for="pnl-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pru'">Back</button>
-                <button onclick="location.href='#pnb'">Next</button>
+                <button onclick={{pnl_back}}>Back</button>
+                <button onclick={{pnl_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -379,8 +449,8 @@
                 <label for="pnb-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pnl'">Back</button>
-                <button onclick="location.href='#pnh'">Next</button>
+                <button onclick={{pnb_back}}>Back</button>
+                <button onclick={{pnb_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -406,8 +476,8 @@
                 <label for="pnh-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pnb'">Back</button>
-                <button onclick="location.href='#pnrl'">Next</button>
+                <button onclick={{pnh_back}}>Back</button>
+                <button onclick={{pnh_next}}>Next</button>
             </div>
         </div>~
     </section>
@@ -435,8 +505,8 @@
                 <label for="pnrl-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pru'">Back</button>
-                <button onclick="location.href='#pnrb'">Next</button>
+                <button onclick={{pnrl_back}}>Back</button>
+                <button onclick={{pnrl_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -463,8 +533,8 @@
                 <label for="pnrb-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pnrl'">Back</button>
-                <button onclick="location.href='#pnrh'">Next</button>
+                <button onclick={{pnrb_back}}>Back</button>
+                <button onclick={{pnrb_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -490,8 +560,8 @@
                 <label for="pnrh-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pnrb'">Back</button>
-                <button onclick="location.href='#pvl'">Next</button>
+                <button onclick={{pnrh_back}}>Back</button>
+                <button onclick={{pnrh_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -542,8 +612,8 @@
                 <label for="pvl-unsure">Unsure</label>
             </form>
             <div class="button-container">
-                <button onclick="location.href='#pnrh'">Back</button>
-                <button onclick="location.href='#pvb'">Next</button>
+                <button onclick={{pvl_back}}>Back</button>
+                <button onclick={{pvl_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -582,7 +652,7 @@
                 <input type="radio" id="pvb-yes" name="pvb" value="yes">
                 <label for="pvb-yes">Yes</label>
     
-                <input type="radio" id="pvl-no" name="pvb" value="no">
+                <input type="radio" id="pvb-no" name="pvb" value="no">
                 <label for="pvb-no">No</label>
     
                 <input type="radio" id="pvb-more-info" name="pvb" value="more-info">
@@ -592,8 +662,8 @@
                 <label for="pvb-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#pvl'">Back</button>
-                <button onclick="location.href='#pvh'">Next</button>
+                <button onclick={{pvb_back}}>Back</button>
+                <button onclick={{pvb_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -643,8 +713,8 @@
                 <label for="pvh-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#pvb'">Back</button>
-                <button onclick="location.href='#pvu'">Next</button>
+                <button onclick={{pvh_back}}>Back</button>
+                <button onclick={{pvh_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -693,8 +763,8 @@
                 <label for="pvu-unsure">Unsure</label>
             </form>
             <div class="button-container"></div>
-                <button onclick="location.href='#pvb'">Back</button>
-                <button onclick="location.href='#retro1'">Next</button>
+                <button onclick={{pvu_back}}>Back</button>
+                <button onclick={{pvu_next}}>Next</button>
             </div>
         </div>
     </section>
@@ -719,6 +789,7 @@
         <div class="content">
             <h2>Patient Screening</h2>
             <form>
+    
                 <label for="algorithm-trust">
                     <p>How likely are you to trust a recommendation made by an algorithm? (0 - Never, 10 - Always)</p>
                 </label>
@@ -736,32 +807,171 @@
         <div class="content">
             <h2>Retrospective questions</h2>
             <p>How confident were you in making a deicsion with the following formats:</p>
+            
             <form>
-                <label for="perscriptive-confidence">
-                    <p>Suggested decision</p>
-                    <input type="range" id="perscriptive-confidence" name="perscriptive-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                </label>
+                <form>
+                    <label for="perscriptive-confidence">
+                        <p>Suggested decision</p>
+                        <div>
+                            <div class="tooltip">
+                                <input type="radio" id="perscriptive-1" name="perscriptive-confidence" value="1">
+                                <label for="perscriptive-1">1</label>
+                                <span class="tooltiptext">Very unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="perscriptive-2" name="perscriptive-confidence" value="2">
+                                <label for="perscriptive-2">2</label>
+                                <span class="tooltiptext">Unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="perscriptive-3" name="perscriptive-confidence" value="3">
+                                <label for="perscriptive-3">3</label>
+                                <span class="tooltiptext">Neutral</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="perscriptive-4" name="perscriptive-confidence" value="4">
+                                <label for="perscriptive-4">4</label>
+                                <span class="tooltiptext">Confident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="perscriptive-5" name="perscriptive-confidence" value="5">
+                                <label for="perscriptive-5">5</label>
+                                <span class="tooltiptext">Very confident</span>
+                            </div>
 
-                <label for="risk-confidence">
-                    <p>Risk level only</p>
-                    <input type="range" id="risk-confidence" name="risk-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                </label>
-
-                <label for="number-confidence">
-                    <p>Number only</p>
-                    <input type="range" id="number-confidence" name="number-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                </label>
-
-                <label for="numberrisk-confidence">
-                    <p>Number + risk level</p>
-                    <input type="range" id="numberrisk-confidence" name="numberrisk-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                </label>
-
-                <label for="verbose-confidence">
-                    <p>Natural frequency + icon array</p>
-                    <input type="range" id="verbose-confidence" name="verbose-confidence" min="0" max="10" value="5" width=40px oninput="this.nextElementSibling.value = this.value">
-                </label>
-
+                        </div>
+                        <br>
+                    </label>
+                
+                    <label for="risk-confidence">
+                        <p>Risk level only</p>
+                        <div>
+                            <div class="tooltip">
+                                <input type="radio" id="risk-1" name="risk-confidence" value="1">
+                                <label for="risk-1">1</label>
+                                <span class="tooltiptext">Very unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="risk-2" name="risk-confidence" value="2">
+                                <label for="risk-2">2</label>
+                                <span class="tooltiptext">Unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="risk-3" name="risk-confidence" value="3">
+                                <label for="risk-3">3</label>
+                                <span class="tooltiptext">Neutral</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="risk-4" name="risk-confidence" value="4">
+                                <label for="risk-4">4</label>
+                                <span class="tooltiptext">Confident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="risk-5" name="risk-confidence" value="5">
+                                <label for="risk-5">5</label>
+                                <span class="tooltiptext">Very confident</span>
+                            </div>
+                        </div>
+                        <br>
+                    </label>
+                
+                    <label for="number-confidence">
+                        <p>Number only</p>
+                        <div>
+                            <div class="tooltip">
+                                <input type="radio" id="number-1" name="number-confidence" value="1">
+                                <label for="number-1">1</label>
+                                <span class="tooltiptext">Very unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="number-2" name="number-confidence" value="2">
+                                <label for="number-2">2</label>
+                                <span class="tooltiptext">Unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="number-3" name="number-confidence" value="3">
+                                <label for="number-3">3</label>
+                                <span class="tooltiptext">Neutral</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="number-4" name="number-confidence" value="4">
+                                <label for="number-4">4</label>
+                                <span class="tooltiptext">Confident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="number-5" name="number-confidence" value="5">
+                                <label for="number-5">5</label>
+                                <span class="tooltiptext">Very confident</span>
+                            </div>
+                            
+                        </div>
+                        <br>
+                    </label>
+                
+                    <label for="numberrisk-confidence">
+                        <p>Number + risk level</p>
+                        <div>
+                            <div class="tooltip">
+                                <input type="radio" id="numberrisk-1" name="numberrisk-confidence" value="1">
+                                <label for="numberrisk-1">1</label>
+                                <span class="tooltiptext">Very unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="numberrisk-2" name="numberrisk-confidence" value="2">
+                                <label for="numberrisk-2">2</label>
+                                <span class="tooltiptext">Unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="numberrisk-3" name="numberrisk-confidence" value="3">
+                                <label for="numberrisk-3">3</label>
+                                <span class="tooltiptext">Neutral</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="numberrisk-4" name="numberrisk-confidence" value="4">
+                                <label for="numberrisk-4">4</label>
+                                <span class="tooltiptext">Confident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="numberrisk-5" name="numberrisk-confidence" value="5">
+                                <label for="numberrisk-5">5</label>
+                                <span class="tooltiptext">Very confident</span>
+                            </div>
+                        </div>
+                        <br>
+                    </label>
+                
+                    <label for="verbose-confidence">
+                        <p>Natural frequency + icon array</p>
+                        <div>
+                            <div class="tooltip">
+                                <input type="radio" id="verbose-1" name="verbose-confidence" value="1">
+                                <label for="verbose-1">1</label>
+                                <span class="tooltiptext">Very unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="verbose-2" name="verbose-confidence" value="2">
+                                <label for="verbose-2">2</label>
+                                <span class="tooltiptext">Unconfident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="verbose-3" name="verbose-confidence" value="3">
+                                <label for="verbose-3">3</label>
+                                <span class="tooltiptext">Neutral</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="verbose-4" name="verbose-confidence" value="4">
+                                <label for="verbose-4">4</label>
+                                <span class="tooltiptext">Confident</span>
+                            </div>
+                            <div class="tooltip">
+                                <input type="radio" id="verbose-5" name="verbose-confidence" value="5">
+                                <label for="verbose-5">5</label>
+                                <span class="tooltiptext">Very confident</span>
+                            </div>
+                        </div>
+                        <br>
+                    </label>
+                </form>
             </form>
             <div class="button-container">
                 <button onclick="location.href='#retro2'">Next</button>
@@ -792,7 +1002,7 @@
 
             </form>
             <div class="button-container">
-                <button onclick="location.href='#final'">Submit</button>
+                <button id="submit-btn" onclick="location.href='#final'">Submit responses</button>
             </div>
         </div>
     </section>
@@ -804,3 +1014,61 @@
 
 </body>
 </html>
+<script>
+    function collectFormData() {
+        // Collect data from different sections
+        const data = {
+            doctor_trust: document.querySelector('input[name="doctor-trust"]:checked')?.value || null,
+            algorithm_trust: document.querySelector('input[name="algorithm-trust"]:checked')?.value || null,
+            ppl : document.querySelector('input[name="ppl"]:checked')?.value || null,
+            pph: document.querySelector('input[name="pph"]:checked')?.value || null,
+            ppu: document.querySelector('input[name="ppu"]:checked')?.value || null,
+            prl: document.querySelector('input[name="prl"]:checked')?.value || null,
+            prh: document.querySelector('input[name="prh"]:checked')?.value || null,
+            pru: document.querySelector('input[name="pru"]:checked')?.value || null,
+            prb: document.querySelector('input[name="prb"]:checked')?.value || null,
+            pnrl: document.querySelector('input[name="pnrl"]:checked')?.value || null,
+            pnrh: document.querySelector('input[name="pnrh"]:checked')?.value || null,
+            pnrb: document.querySelector('input[name="pnrb"]:checked')?.value || null,
+            pnl: document.querySelector('input[name="pnl"]:checked')?.value || null,
+            pnh: document.querySelector('input[name="pnh"]:checked')?.value || null,
+            pnb: document.querySelector('input[name="pnb"]:checked')?.value || null,
+            pvh: document.querySelector('input[name="pvh"]:checked')?.value || null,
+            pvl: document.querySelector('input[name="pvl"]:checked')?.value || null,
+            pvb: document.querySelector('input[name="pvb"]:checked')?.value || null,
+            pvu: document.querySelector('input[name="pvu"]:checked')?.value || null,
+            perscriptiveConfidence: document.querySelector('input[name="perscriptive-confidence"]:checked')?.value || null,
+            riskConfidence: document.querySelector('input[name="risk-confidence"]:checked')?.value || null,
+            numberConfidence: document.querySelector('input[name="number-confidence"]:checked')?.value || null,
+            numberRiskConfidence: document.querySelector('input[name="numberrisk-confidence"]:checked')?.value || null,
+            verboseConfidence: document.querySelector('input[name="verbose-confidence"]:checked')?.value || null,
+            fave: document.querySelector('input[name="retro2"]:checked')?.value || null
+        };
+
+        // Log the data as JSON to the console
+        console.log(JSON.stringify(data, null, 2));
+    
+            // Send the data using fetch
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        
+    }
+
+    // Attach event listener to the submit button
+    document.getElementById('submit-btn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        collectFormData(); // Collect and log the form data
+    });
+</script>
